@@ -15,19 +15,28 @@ public class Main {
     public static void main(String[] args) {
 	// write your code h
         System.out.println("hw");
-        String path = "C:\\Users\\Ender\\IdeaProjects\\KNN7\\src\\com\\KPFU\\1.txt";
+        String path = "C:\\Users\\Ender\\IdeaProjects\\KNN7\\src\\com\\KPFU\\3.txt";
         //String path = "./1.txt";
         List<List<String>> trainTable = readTable(path);
         //System.out.println(trainTable.size());
         List<String> wordKit = Arrays.asList("к", "п", "т", "ф", "х", "ц");
 
-        KNN detector = new KNN(5, wordKit);
-        detector.train(trainTable);
+        //KNN detector = new KNN(5, wordKit);
+        //detector.train(trainTable);
+        float[] data = new float[trainTable.size()];
+        float fs = 44100;
 
+        System.out.println(trainTable.get(0).size());
         for (int i = 0; i < trainTable.size(); i++)
         {
-            System.out.println(trainTable.get(i));
+            data[i] = Float.parseFloat(trainTable.get(i).get(0));
+            //System.out.println(data[i]);
         }
+        LoneWordPreprocessing wordPreprocessing = new LoneWordPreprocessing(data, fs);
+        float[] dataNew = wordPreprocessing.deleteE();
+        for (int i = 0; i < dataNew.length; i++)
+            System.out.println(dataNew[i]);
+
         //for (int )
     }
 
