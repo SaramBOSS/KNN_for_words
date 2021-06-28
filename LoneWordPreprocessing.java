@@ -7,45 +7,46 @@ import static java.util.Collections.max;
 
 public class LoneWordPreprocessing {
 
-    private double[] mData;
-    private double mFs;
+    private float[] mData;
+    private float mFs;
 
-    public LoneWordPreprocessing(double[] data, double fs)
+    public LoneWordPreprocessing(float[] data, float fs)
     {
         mData = data;
         mFs = fs;
     }
 
-    public double[] deleteE()
+    public float[] deleteE()
     {
         int winLen = 10;
-        List<Double> energyGist = new ArrayList<>();
-        int i = 0;
-        for (i = 0; i < mData.length; i+=winLen);
+        List<Float> energyGist = new ArrayList<>();
+        int i;
+        for (i = 0; i < mData.length; i+=winLen)
         {
-            double energy = 0;
-            for (int j = i; j <= winLen; j++)
+            float energy = 0;
+            for (int j = i; j < i + winLen; j++)
             {
-                if (j <= mData.length)
+                if (j < mData.length)
                 {
-                    energy = energy + Math.pow(mData[i],2);
+                    float pow = (float)Math.pow(mData[i],2);
+                    energy = energy + pow;
                 }
             }
             energyGist.add(energy);
         }
 
-        double maxEn = max(energyGist);
-        double meanEn = mean(energyGist);
+        //float maxEn = max(energyGist);
+        float meanEn = mean(energyGist);
 
         int tillE = 0;
         for (i = 0; i < mData.length; i+= winLen)
         {
-            double energy = 0;
-            for (int j = i; j <= winLen; j++)
+            float energy = 0;
+            for (int j = i; j < i + winLen; j++)
             {
-                if (j <= mData.length)
+                if (j < mData.length)
                 {
-                    energy = energy + Math.pow(mData[i],2);
+                    energy = energy + (float)Math.pow(mData[i],2);
                 }
             }
 
@@ -56,15 +57,15 @@ public class LoneWordPreprocessing {
             }
         }
 
-        double[] dataNew = new double[tillE];
+        float[] dataNew = new float[tillE];
         for ( i = 0; i < tillE; i++)
             dataNew[i] = mData[i];
         return dataNew;
     }
 
-    private double mean(List<Double> arr)
+    private float mean(List<Float> arr)
     {
-        double sum = 0;
+        float sum = 0;
         for (int i = 0; i < arr.size(); i++)
         {
             sum = sum + arr.get(i);
