@@ -10,6 +10,7 @@ public class KNN
         public String mWordName;
         public double mDist;
 
+
         @Override
         public int compareTo(Object o) {
             WordCeps wCeps = (WordCeps)o;
@@ -38,7 +39,7 @@ public class KNN
         mKNNdim = KNNdim;
         mNwords = wordKit.size();
         mWordsValues = new HashMap<String, Integer>();
-        for (int i = 0; i <= mNwords; i++)
+        for (int i = 0; i < mNwords; i++)
         {
             mWordsValues.put(wordKit.get(i), 0);
         }
@@ -47,13 +48,34 @@ public class KNN
     public void train(double[][] wordCepsTable, List<String> words)
     {
         mWordTable = new WordCeps[wordCepsTable.length];
-        for (int i = 0; i <= wordCepsTable.length; i++) {
+        for (int i = 0; i < wordCepsTable.length; i++) {
             mWordTable[i].mWordCeps = wordCepsTable[i];
             mWordTable[i].mWordName = words.get(i);
         }
         //mWordCepsTable = wordCepsTable;
         //mWords = words;
         //mWordTable.sort();
+    }
+
+    public void train(List<List<String>> wordCepsTable)
+    {
+        mWordTable = new WordCeps[wordCepsTable.size()];
+        System.out.println(mWordTable.length);
+        for (int i = 0; i < mWordTable.length; i++)
+        {
+            //double[] a = new double[wordCepsTable.get(0).size() - 1];
+            mWordTable[i] = new WordCeps();
+            mWordTable[i].mWordCeps = new double[wordCepsTable.get(0).size() - 1];
+            ///double[] b;
+            //b = a;
+            //System.out.println(mWordTable[0].getClass().getSimpleName());
+            //mWordTable[i].mWordCeps = a;
+            for (int j = 0; j < wordCepsTable.get(0).size() - 1; j++)
+            {
+                mWordTable[i].mWordCeps[j] = Double.parseDouble(wordCepsTable.get(i).get(j));
+            }
+            mWordTable[i].mWordName = wordCepsTable.get(i).get(wordCepsTable.get(0).size()-1);
+        }
     }
 
     public void detect(double[] wordCeps)
@@ -73,6 +95,11 @@ public class KNN
             mWordsValues.put(mWordTable[i].mWordName, wordValue);
             i++;
         }
+    }
+
+    private Map<String, Integer> getWordsValues()
+    {
+        return  mWordsValues;
     }
 
     private double dist(double[] x_1, double[] x_2)
