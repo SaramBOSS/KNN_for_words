@@ -1,10 +1,9 @@
 package com.KPFU;
 import javafx.scene.chart.ScatterChart;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
+import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.lang.Math;
 import java.util.Scanner;
@@ -16,11 +15,19 @@ public class Main {
     public static void main(String[] args) {
 	// write your code h
         System.out.println("hw");
-        String path = "C:\\Users\\Ender\\IdeaProjects\\KNN7\\src\\com\\KPFU\\2.txt";
+        String path = "C:\\Users\\Ender\\IdeaProjects\\KNN7\\src\\com\\KPFU\\1.txt";
         //String path = "./1.txt";
         List<List<String>> trainTable = readTable(path);
+        //System.out.println(trainTable.size());
+        List<String> wordKit = Arrays.asList("к", "п", "т", "ф", "х", "ц");
 
-        //System.out.println(trainTable.get(0).get(0));
+        KNN detector = new KNN(5, wordKit);
+        detector.train(trainTable);
+
+        for (int i = 0; i < trainTable.size(); i++)
+        {
+            System.out.println(trainTable.get(i));
+        }
         //for (int )
     }
 
@@ -33,7 +40,24 @@ public class Main {
         //Scanner scanne = new Scanner(fid);
         //new BufferedReader(new FileReader(path))
         //new File(path))
-        try (Scanner scanner = new Scanner(new File(path)))
+
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(path), "Cp1251")))
+        {
+            String line;
+            int i = 0;
+            while ((line = reader.readLine()) != null)
+            {
+                table.add(getRecordFromLine(line));
+            }
+        }
+        catch (IOException e)
+        {
+            System.out.println("err");
+            //e.printStackTrace();
+        }
+
+
+        /*try (Scanner scanner = new Scanner(new File(path)))
         {
             System.out.println(scanner.hasNextLine());
             //System.out.println("!");
@@ -47,7 +71,7 @@ public class Main {
         catch (Exception ex)
         {
             System.out.println("err");
-        }
+        }*/
 
 
         return table;
@@ -67,7 +91,6 @@ public class Main {
         }
         return values;
     }
-
 
     public static double dist(double[] x_1, double[] x_2)
     {
