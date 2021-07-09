@@ -75,13 +75,18 @@ public class KNN
                 mWordTable[i].mWordCeps[j] = Double.parseDouble(wordCepsTable.get(i).get(j));
             }
             mWordTable[i].mWordName = wordCepsTable.get(i).get(wordCepsTable.get(0).size()-1);
+            //System.out.println(mWordTable[i].mWordName);
         }
+        //System.out.println(wordCepsTable.get(0).get(wordCepsTable.get(0).size()-1));
+        System.out.println(wordCepsTable.size());
+        System.out.println(wordCepsTable.get(0).size());
     }
 
     public void detect(double[] wordCeps)
     {
         //double[] dists = new double[mWordCepsTable.length];
-        for (int j = 0; j <= mWordTable.length; j++ )
+        //System.out.println(mWordTable.length);
+        for (int j = 0; j < mWordTable.length; j++ )
         {
             mWordTable[j].mDist = dist(wordCeps, mWordTable[j].mWordCeps);
         }
@@ -89,9 +94,11 @@ public class KNN
 
         int i = 0;
         int wordValue = 0;
-        while ((i <= mWordTable.length) & (wordValue <= mKNNdim))
+        while ((i < mWordTable.length) & (wordValue < mKNNdim))
         {
             wordValue = mWordsValues.get(mWordTable[i].mWordName) + 1;
+            //System.out.println(mWordTable[i].mWordName);
+            //System.out.println(wordValue);
             mWordsValues.put(mWordTable[i].mWordName, wordValue);
             i++;
         }
