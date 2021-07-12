@@ -82,6 +82,30 @@ public class KNN
         System.out.println(wordCepsTable.get(0).size());
     }
 
+    public void addNewWordToTrainTable(String wordName, double[] wordCeps)
+    {
+        WordCeps ceps = new WordCeps();
+        ceps.mWordName = wordName;
+        ceps.mWordCeps = wordCeps;
+        WordCeps[] newWordTable;
+        if (mWordTable.length > 0)
+        {
+            newWordTable = new WordCeps[mWordTable.length + 1];
+            for (int i = 0; i < mWordTable.length; i++)
+            {
+                //mWordTable[i] = new WordCeps();
+                newWordTable[i] = mWordTable[i];
+            }
+            newWordTable[mWordTable.length] = ceps;
+        }
+        else
+        {
+            newWordTable = new WordCeps[1];
+            newWordTable[0] = ceps;
+        }
+        mWordTable = newWordTable;
+    }
+
     public void detect(double[] wordCeps)
     {
         //double[] dists = new double[mWordCepsTable.length];
